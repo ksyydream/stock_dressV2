@@ -1,6 +1,6 @@
 <div class="am-offcanvas-bar admin-offcanvas-bar" id="menuDiv">
     <ul class="am-list admin-sidebar-list am-panel">
-        <li><a href="/admin.php"><span class="am-icon-home"></span> 工作台</a></li>
+        <li><a href="/"><span class="am-icon-home"></span> 工作台</a></li>
 
 
         {{if 'a'|in_array:$permission}}
@@ -14,75 +14,7 @@
             </ul>
         </li>
         {{/if}}
-        {{if 'b'|in_array:$permission}}
-        <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav9'}">
-                <span class="am-icon-file"></span> 站内信 <span class="am-icon-angle-right am-fr am-margin-right"></span>
-            </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav9">
-                <li><a href="javascript:open_content('/admin.php/notice/get_list');" class="am-cf menu"><span class="am-icon-check"></span> 站内信列表</a></li>
-            </ul>
-        </li>
-        {{/if}}
-        {{if 'c'|in_array:$permission}}
-        <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav3'}">
-                <span class="am-icon-file"></span> 下载中心 <span class="am-icon-angle-right am-fr am-margin-right"></span>
-            </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav3">
-                <li><a href="javascript:open_content('/admin.php/document/list_type_1');" class="am-cf menu"><span class="am-icon-check"></span> 一级类别</a></li>
-                <li><a href="javascript:open_content('/admin.php/document/list_type_2');" class="am-cf menu"><span class="am-icon-check"></span> 二级类别</a></li>
-                <li><a href="javascript:open_content('/admin.php/document/get_list');" class="am-cf menu"><span class="am-icon-check"></span> 文件列表</a></li>
-            </ul>
-        </li>
-        {{/if}}
-        {{if 'm'|in_array:$permission}}
-        <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav2'}">
-                <span class="am-icon-file"></span> 游客表彰 <span class="am-icon-angle-right am-fr am-margin-right"></span>
-            </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
-                <li><a href="javascript:open_content('/admin.php/messages/list_message');" class="am-cf menu"><span class="am-icon-check"></span> 表彰信息</a></li>
-            </ul>
-        </li>
-        {{/if}}
-        {{if 'a'|in_array:$permission}}
-        <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav1'}">
-                <span class="am-icon-file"></span> 前台用户 <span class="am-icon-angle-right am-fr am-margin-right"></span>
-            </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav1">
-                <li><a href="javascript:open_content('/admin.php/company/list_company_1');" class="am-cf menu"><span class="am-icon-check"></span> 企业待审</a></li>
-                <li><a href="javascript:open_content('/admin.php/company/list_company_2');" class="am-cf menu"><span class="am-icon-check"></span> 审核通过</a></li>
-                <li><a href="javascript:open_content('/admin.php/company/list_company_3');" class="am-cf menu"><span class="am-icon-check"></span> 审核失败</a></li>
-                <li><a href="javascript:open_content('/admin.php/company/list_company_fail');" class="am-cf menu"><span class="am-icon-check"></span> 作废</a></li>
-            </ul>
-        </li>
-        {{/if}}
-        {{if 'e'|in_array:$permission}}
-        <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav5'}">
-                <span class="am-icon-file"></span> 经纪人列表 <span class="am-icon-angle-right am-fr am-margin-right"></span>
-            </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav5">
-                <li><a href="javascript:open_content('/admin.php/agent/list_agent');" class="am-cf menu"><span class="am-icon-check"></span> 执业经纪人</a></li>
-                <li><a href="javascript:open_content('/admin.php/agent/list_onjobagent');" class="am-cf menu"><span class="am-icon-check"></span> 在职经纪人</a></li>
-            </ul>
-        </li>
-        {{/if}}
-        {{if 'd'|in_array:$permission}}
-        <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav4'}">
-                <span class="am-icon-file"></span> 企业事件 <span class="am-icon-angle-right am-fr am-margin-right"></span>
-            </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav4">
-                <li><a href="javascript:open_content('/admin.php/event/list_grade');" class="am-cf menu"><span class="am-icon-check"></span> 分数等级</a></li>
-                <li><a href="javascript:open_content('/admin.php/event/list_type_1');" class="am-cf menu"><span class="am-icon-check"></span> 事件类别</a></li>
-                <li><a href="javascript:open_content('/admin.php/event/list_event_1/1/1');" class="am-cf menu"><span class="am-icon-check"></span> 表彰列表</a></li>
-                <li><a href="javascript:open_content('/admin.php/event/list_event_1/2/1');" class="am-cf menu"><span class="am-icon-check"></span> 失信列表</a></li>
-            </ul>
-        </li>
-        {{/if}}
+
         {{if $user_info.username == 'admin'}}
         <li class="admin-parent">
             <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav7'}">
@@ -95,10 +27,10 @@
         {{/if}}
         {{if $user_info.username == 'admin'}}
         <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav6'}">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav1'}">
                 <span class="am-icon-file"></span> 高级操作 <span class="am-icon-angle-right am-fr am-margin-right"></span>
             </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav6">
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav1">
                 <li><a href="javascript:open_content('/admin.php/excel_use/excel_default');" class="am-cf menu"><span class="am-icon-check"></span> 导入企业信息</a></li>
                 <li><a href="javascript:open_content('/admin.php/excel_use/excel_in');" class="am-cf menu"><span class="am-icon-check"></span> 导出企业信息</a></li>
             </ul>

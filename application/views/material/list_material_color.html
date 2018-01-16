@@ -4,12 +4,12 @@
 
     <div class="am-cf am-padding">
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
-           面料型号列表</strong></div>
+           面料颜色列表</strong></div>
     </div>
 
     <div class="am-g">
 
-        <form method="post" action="{{site_url url='material/list_material'}}/1" class="search_form">
+        <form method="post" action="{{site_url url='material/list_material_color'}}/1" class="search_form">
 
             <div class="am-u-sm-12 am-u-md-8">
                 <div class="am-input-group am-input-group-sm">
@@ -35,7 +35,7 @@
                 <thead>
                 <tr>
                     <th>编码</th>
-                    <th>面料型号</th>
+                    <th>面料颜色</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -44,7 +44,7 @@
                 {{foreach from=$data.items key=key item=item}}
                 <tr>
                     <td>{{$item.id}}</td>
-                    <td><a>{{$item.material_name}}</a></td>
+                    <td><a>{{$item.color_name}}</a></td>
                     <td><a> {{if $item.flag == 1}}使用{{/if}} {{if $item.flag == -1}}停用{{/if}}</a></td>
 
                     <td><div class="am-btn-toolbar">
@@ -86,7 +86,7 @@
                 <input id="edit_id" name="edit_id" type="hidden" value="">
                 <tr>
                     <td>面料型号名称：</td>
-                    <td><input required type="text" id="add_material_name" name="add_material_name" class="input-txt" style="height: 30px;"></td>
+                    <td><input required type="text" id="add_color_name" name="add_color_name" class="input-txt" style="height: 30px;"></td>
                 </tr>
             </table>
             <div style="width: 100%;text-align: center;margin-top: 10px;">
@@ -99,22 +99,22 @@
 <script>
     $("#add_type_btn").click(function(){
         $('#edit_id').val('')
-        $('#add_material_name').val('')
+        $('#add_color_name').val('')
         $('#type_page').modal('open');
     });
     $("#btnSave").click(function(){
-        var material_name = $('#add_material_name').val();
+        var color_name = $('#add_color_name').val();
         var edit_id = $('#edit_id').val();
-        if($.trim(material_name)==""){
+        if($.trim(color_name)==""){
             layer.msg('面料型号不能为空!', {icon: 2});return false;
         }
-        $.post('/material/save_material', {material_name: material_name,material_id:edit_id}, function(data) {
+        $.post('/material/save_material_color', {color_name: color_name,color_id:edit_id}, function(data) {
             if(data == -1){
                 layer.msg('操作失败!', {icon: 2});return false;
             }else if(data==-2){
                 layer.msg('此面料型号已存在!', {icon: 2});return false;
             }else{
-                var action = "{{site_url url='material/list_material'}}/{{$page}}"
+                var action = "{{site_url url='material/list_material_color'}}/{{$page}}"
                 $('.search_form').attr('action',action);
                 $('.search_form').submit();
             }
@@ -123,14 +123,14 @@
 
     $("a[name='eidt_btn']").click(function(){
         var id = $(this).find('input').eq(0).val();
-        $.getJSON('/material/get_material/'+id, function(data) {
+        $.getJSON('/material/get_material_color/'+id, function(data) {
             if(data == -1){
                 $('#edit_id').val('')
-                $('#add_material_name').val('')
+                $('#add_color_name').val('')
                 $('#type_page').modal(data);
             }else{
                 $('#edit_id').val(data.id)
-                $('#add_material_name').val(data.material_name)
+                $('#add_color_name').val(data.color_name)
                 $('#type_page').modal('open');
             }
         });
@@ -142,9 +142,9 @@
                 btn: ['同意','不同意'], //按钮
                 area: ['400px', 'auto']
             }, function(){
-                $.getJSON("{{site_url url='material/delete_material'}}/"+id,function(data){
+                $.getJSON("{{site_url url='material/delete_material_color'}}/"+id,function(data){
                     if(data == 1){
-                        var action = "{{site_url url='material/list_material'}}/{{$page}}"
+                        var action = "{{site_url url='material/list_material_color'}}/{{$page}}"
                         $('.search_form').attr('action',action);
                         $('.search_form').submit();
                     }else{
@@ -162,9 +162,9 @@
             btn: ['同意','不同意'], //按钮
             area: ['400px', 'auto']
         }, function(){
-            $.getJSON("{{site_url url='material/use_material'}}/"+id,function(data){
+            $.getJSON("{{site_url url='material/use_material_color'}}/"+id,function(data){
                 if(data == 1){
-                    var action = "{{site_url url='material/list_material'}}/{{$page}}"
+                    var action = "{{site_url url='material/list_material_color'}}/{{$page}}"
                     $('.search_form').attr('action',action);
                     $('.search_form').submit();
                 }else{
