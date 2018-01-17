@@ -126,7 +126,7 @@ class Material_model extends MY_Model
 		if($this->input->post('flag')){
 			$this->db->where("a.flag",$this->input->post('flag'));
 		}
-		$this->db->limit($this->limit, $offset = ($page - 1) * $this->limit);
+		$this->db->limit($data['limit'], $offset = ($page - 1) * $data['limit']);
 		$this->db->order_by('a.id','desc');
 		$data['items'] = $this->db->get()->result_array();
 
@@ -193,5 +193,70 @@ class Material_model extends MY_Model
 		return $this->db->get()->row_array();
 	}
 
+	public function get_material_all($flag){
+		//获取详细列
+		$this->db->select('a.material_name,a.id')->from('material a');
+		if($flag){
+			$this->db->where_in('a.flag',$flag);
+		}
+		$this->db->order_by('a.id','asc');
+		$data = $this->db->get()->result_array();
+
+		return $data;
+	}
+
+	public function get_color_all($flag){
+		//获取详细列
+		$this->db->select('a.color_name,a.id')->from('material_color a');
+		if($flag){
+			$this->db->where_in('a.flag',$flag);
+		}
+		$this->db->order_by('a.id','asc');
+		$data = $this->db->get()->result_array();
+
+		return $data;
+	}
+
+	//面料入库
+
+	public function list_stock_in($page){
+		$data['limit'] = $this->limit;
+		//获取总记录数
+		$this->db->select('count(1) num')->from('material_in_form a');
+		$this->db->join('cust b','a.cust_id = b.id','left');
+		if($this->input->post('keyword')){
+			$this->db->like('a.form_name',$this->input->post('keyword'));
+		}
+		if($this->input->post('cust_id')){
+			$this->db->where('a.cust_id',$this->input->post('cust_id'));
+		}
+		if($this->input->post('flag')){
+			$this->db->where("a.flag",$this->input->post('flag'));
+		}
+		$num = $this->db->get()->row();
+		$data['total'] = $num->num;
+
+		//搜索条件
+		$data['flag'] = $this->input->post('flag')?$this->input->post('flag'):null;
+		$data['cust_id'] = $this->input->post('cust_id')?$this->input->post('cust_id'):null;
+		$data['keyword'] = $this->input->post('keyword')?$this->input->post('keyword'):null;
+		//获取详细列
+		$this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name")->from('material_in_form a');
+		$this->db->join('cust b','a.cust_id = b.id','left');
+		if($this->input->post('keyword')){
+			$this->db->like('a.form_name',$this->input->post('keyword'));
+		}
+		if($this->input->post('cust_id')){
+			$this->db->where('a.cust_id',$this->input->post('cust_id'));
+		}
+		if($this->input->post('flag')){
+			$this->db->where("a.flag",$this->input->post('flag'));
+		}
+		$this->db->limit($data['limit'], $offset = ($page - 1) * $data['limit']);
+		$this->db->order_by('a.id','desc');
+		$data['items'] = $this->db->get()->result_array();
+
+		return $data;
+	}
 
 }

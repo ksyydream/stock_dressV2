@@ -6,6 +6,7 @@ class Material extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('material_model');
+		$this->load->model('cust_model');
 		$permission = $this->session->userdata('permission');
 		if(!in_array('a',$permission)){
 			redirect(site_url('index/index'));
@@ -67,5 +68,32 @@ class Material extends MY_Controller {
 	public function save_material_color(){
 		echo $this->material_model->save_material_color();
 	}
+//面料库存
 
+	public function list_stock_in($page=1){
+		$data = $this->material_model->list_stock_in($page);
+		$types = $this->material_model->list_material();
+		$base_url = "/material/list_stock_in/";
+		$pager = $this->pagination->getPageLink($base_url, $data['total'], $data['limit']);
+		$this->assign('pager', $pager);
+		$this->assign('data', $data);
+		$this->assign('page', $page);
+		$this->assign('types', $types);
+		$this->show('material/list_stock_in');
+	}
+
+	public function add_stock($id=null,$page=1){
+		$this->assign('page', $page);
+		$cust = $this->cust_model->get_cust_all(1);
+		$material = $this->material_model->get_material_all(1);
+		$color = $this->material_model->get_color_all(1);
+		$this->assign('material', $material);
+		$this->assign('color', $color);
+		$this->assign('cust', $cust);
+		if($id){
+			$detail = $this->material_model->get_new_detail($id);
+			$this->assign('detail', $detail);
+		}
+		$this->show('material/stock_in');
+	}
 }
