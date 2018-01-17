@@ -59,6 +59,7 @@ class Material_model extends MY_Model
 	public function save_material(){
 		$data = array(
 			'material_name'=>$this->input->post('material_name'),
+			'remark'=>$this->input->post('remark'),
 			//'flag'=>$this->input->post('flag')? 1 : 2,
 			'create_date'=>date('Y-m-d H:i:s'),
 			'modify_date'=>date('Y-m-d H:i:s'),
@@ -75,6 +76,8 @@ class Material_model extends MY_Model
 			}
 			$rs = $this->db->insert('material',$data);
 		}else{
+			unset($data['create_date']);
+			unset($data['create_user']);
 			$check = $this->db->select('*')->from('material')->where(
 				array(
 					'material_name'=>$data['material_name'],
@@ -164,6 +167,8 @@ class Material_model extends MY_Model
 			}
 			$rs = $this->db->insert('material_color',$data);
 		}else{
+			unset($data['create_date']);
+			unset($data['create_user']);
 			$check = $this->db->select('*')->from('material_color')->where(
 				array(
 					'color_name'=>$data['color_name'],

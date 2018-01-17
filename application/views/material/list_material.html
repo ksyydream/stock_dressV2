@@ -85,8 +85,12 @@
             <table  cellpadding="0" cellspacing="0" class="action-table"style="margin: 0 auto;text-align: left;">
                 <input id="edit_id" name="edit_id" type="hidden" value="">
                 <tr>
-                    <td>面料型号名称：</td>
-                    <td><input required type="text" id="add_material_name" name="add_material_name" class="input-txt" style="height: 30px;"></td>
+                    <td>面料型号：</td>
+                    <td><input type="text" id="add_material_name" name="add_material_name" class="input-txt" style="height: 30px;"></td>
+                </tr>
+                <tr>
+                    <td>备注：</td>
+                    <td><input type="text" id="add_remark" name="add_remark" class="input-txt" style="height: 30px;"></td>
                 </tr>
             </table>
             <div style="width: 100%;text-align: center;margin-top: 10px;">
@@ -100,15 +104,17 @@
     $("#add_type_btn").click(function(){
         $('#edit_id').val('')
         $('#add_material_name').val('')
+        $('#add_remark').val('')
         $('#type_page').modal('open');
     });
     $("#btnSave").click(function(){
         var material_name = $('#add_material_name').val();
+        var remark = $('#add_remark').val();
         var edit_id = $('#edit_id').val();
         if($.trim(material_name)==""){
             layer.msg('面料型号不能为空!', {icon: 2});return false;
         }
-        $.post('/material/save_material', {material_name: material_name,material_id:edit_id}, function(data) {
+        $.post('/material/save_material', {material_name: material_name,remark:remark,material_id:edit_id}, function(data) {
             if(data == -1){
                 layer.msg('操作失败!', {icon: 2});return false;
             }else if(data==-2){
@@ -127,10 +133,12 @@
             if(data == -1){
                 $('#edit_id').val('')
                 $('#add_material_name').val('')
+                $('#add_remark').val('')
                 $('#type_page').modal(data);
             }else{
                 $('#edit_id').val(data.id)
                 $('#add_material_name').val(data.material_name)
+                $('#add_remark').val(data.remark)
                 $('#type_page').modal('open');
             }
         });

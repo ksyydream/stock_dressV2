@@ -5,16 +5,61 @@
 
         {{if 'a'|in_array:$permission}}
         <li class="admin-parent">
-            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav8'}">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav2'}">
                 <span class="am-icon-file"></span> 面料管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
             </a>
-            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav8">
-                <li><a href="javascript:open_content('/material/list_material');" class="am-cf menu"><span class="am-icon-check"></span> 面料型号</a></li>
-                <li><a href="javascript:open_content('/material/list_material_color');" class="am-cf menu"><span class="am-icon-check"></span> 面料颜色</a></li>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
+                <li><a href="javascript:open_content('/material/list_material');" class="am-cf menu"><span class="am-icon-check"></span> 面料型号设置</a></li>
+                <li><a href="javascript:open_content('/material/list_material_color');" class="am-cf menu"><span class="am-icon-check"></span> 面料颜色设置</a></li>
+                <li><a href="javascript:open_content('/material/list_material_stock');" class="am-cf menu"><span class="am-icon-check"></span> 面料库存报表</a></li>
+                <li><a href="javascript:open_content('/material/list_material_stock');" class="am-cf menu"><span class="am-icon-check"></span> 面料入库单</a></li>
             </ul>
         </li>
         {{/if}}
 
+        {{if 'b'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav3'}">
+                <span class="am-icon-file"></span> 裁剪工作单 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav3">
+
+            </ul>
+        </li>
+        {{/if}}
+
+        {{if 'c'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav4'}">
+                <span class="am-icon-file"></span> 款式管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav4">
+
+            </ul>
+        </li>
+        {{/if}}
+
+        {{if 'c'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav5'}">
+                <span class="am-icon-file"></span> 客户CRM <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav5">
+                <li><a href="javascript:open_content('/cust/list_cust');" class="am-cf menu"><span class="am-icon-check"></span> 客户基础信息</a></li>
+            </ul>
+        </li>
+        {{/if}}
+
+        {{if 'e'|in_array:$permission}}
+        <li class="admin-parent">
+            <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav6'}">
+                <span class="am-icon-file"></span> 外包公司管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            </a>
+            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav6">
+
+            </ul>
+        </li>
+        {{/if}}
         {{if $user_info.username == 'admin'}}
         <li class="admin-parent">
             <a class="am-cf" data-am-collapse="{parent: '#menuDiv', target: '#collapse-nav7'}">
