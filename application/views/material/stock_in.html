@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<link href="/statics/css/yy_style.css" rel="stylesheet" type="text/css">
+<!-- content start -->
+<div class="admin-content">
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">创建面料入库单</strong> /
+            <small>Add MATERIAL</small>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+        <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+
+        </div>
+        <!--<div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">-->
+            <div class="am-u-sm-12 am-u-md-10 am-u-md-pull-2">
+            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='news/save_news'}}">
+                <input type="hidden" name="form_id" value="{{$detail.id|default:''}}">
+                <label class="am-u-sm-2 am-form-label">面料所属</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <select data-am-selected="{searchBox: 1,btnWidth: '550px',}" id="cust_id" name="cust_id">
+                            <option value="-1">--公共库存--</option>
+                            {{foreach from=$cust key=key item=item}}
+                            <option value="{{$item.id}}">{{$item.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                <table class="am-table">
+                    <thead>
+                    <tr>
+                        <th>面料型号</th>
+                        <th>面料颜色</th>
+                        <th>缸号</th>
+                        <th>匹数</th>
+                        <th>米数(最多两位小数)(选填)</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <select data-am-selected="{searchBox: 1}" id="sel_material_id">
+                                <option value="">--Select--</option>
+                            {{foreach from=$material key=key item=item}}
+                            <option value="{{$item.id}}">{{$item.material_name}}</option>
+                            {{/foreach}}
+                        </select>
+                        </td>
+                        <td>
+                            <select data-am-selected="{searchBox: 1}" id="sel_color_id">
+                                <option value="">--Select--</option>
+                                {{foreach from=$color key=key item=item}}
+                                <option value="{{$item.id}}">{{$item.color_name}}</option>
+                                {{/foreach}}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="am-form-field" id="add_ganghao" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="am-form-field" name="add_qty" id="add_qty" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="am-form-field" id="add_meters" value="">
+                        </td>
+                        <td>
+                            <a class="am-btn am-btn-success" id="add_m_btn"  href="javascript:void(0);">添加</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="am-form-group">
+                    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">面料 <a id="del_empty" class="am-btn am-btn-danger am-btn-xs" href="javascript:void(0);">删除未填写米数的面料</a></strong>
+
+                    </div>
+                    <table class="am-table am-table-bordered am-table-radius am-table-striped" id="stock_table">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>面料型号</th>
+                            <th>面料颜色</th>
+                            <th>缸号</th>
+                            <th width="20%">米数</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="stock_tbody">
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-9 am-u-sm-push-3">
+                        <button type="button" id="save_btn" class="am-btn am-btn-danger" id="doc-confirm-toggle">提交</button>
+                        <a class="am-btn am-btn-default" href="{{site_url url='news/list_news'}}/{{$page}}">返回</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--<script type="text/javascript" src="/statics/js/jquery.min.js"></script>-->
+<script type="text/javascript" src="/statics/js/layer/layer.js"></script>
+<!--可视化编辑引用js-->
+
+<script src="/statics/js/ajaxfileupload.js"></script>
+<script>
+    $("#add_qty").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("#add_meters").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+    $("#add_m_btn").click(function(){
+    //先获取所需的信息
+    var sel_material_id = $("#sel_material_id").val();
+    var sel_material_text = $("#sel_material_id").find("option:selected").text()
+    var sel_color_id = $("#sel_color_id").val();
+    var sel_color_text = $("#sel_color_id").find("option:selected").text()
+    var add_ganghao = $.trim($("#add_ganghao").val());
+    var add_qty = $("#add_qty").val();
+    var add_meters = $.trim($("#add_meters").val());
+    if(sel_material_id==""){
+        layer.msg('请选择面料型号');
+        return false;
+    }
+    if(sel_color_id==""){
+        layer.msg('请选择面料颜色');
+        return false;
+    }
+    if(add_ganghao==""){
+        layer.msg('请填写缸号');
+        return false;
+    }
+    if(add_qty==""){
+        layer.msg('请填写匹数');
+        return false;
+    }
+    //解绑事件
+    $("#stock_tbody").find("a").off('click');
+    $("[name='meters[]']").off('keyup').off('blur').off('paste');
+
+
+    divbox =" <tr>" +
+            "<td><yy_index></yy_index></td>" +
+            "<td>"+ sel_material_text +"</td>" +
+            "<td>"+ sel_color_text +"</td>" +
+            "<td>"+ add_ganghao +"</td>" +
+            "<td><input type='text' class='am-form-field' name='meters[]' value='" + add_meters + "'></td>" +
+            "<td>" +
+            "<input type='hidden' name='material_id[]' value='" + sel_material_id +"'>"+
+            "<input type='hidden' name='color_id[]' value='" + sel_color_id +"'>"+
+            "<input type='hidden' name='hanghao[]' value='" + add_ganghao +"'>"+
+            " <a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a>"+
+            "</td></tr>";
+    for (var i=0;i<add_qty;i++)
+    {
+        $('#stock_tbody').append(divbox);
+    }
+
+    //绑定事件
+    $("#stock_tbody").find("a").on('click',function () {
+        $(this).parent().parent().remove();
+        $("#stock_tbody").find("yy_index").each(function(index){
+            $(this).html(index+1)
+        })
+    })
+        $("#stock_tbody").find("yy_index").each(function(index){
+            $(this).html(index+1)
+        })
+    $("[name='meters[]']").keyup(function () {
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
+    }).blur(function(){
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
+    }).bind("paste", function () {  //CTR+V事件处理
+        $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+        if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+})
+
+    $("#del_empty").click(function(){
+        $("#stock_tbody").find("[name='meters[]']").each(function(){
+            if($.trim($(this).val())==""){
+                $(this).parent().parent().remove();
+            }
+        });
+        $("#stock_tbody").find("yy_index").each(function(index){
+            $(this).html(index+1)
+        })
+    })
+
+    $("#save_btn").click(function(){
+        var content = $("#content").val(ue.getContent());
+        if(content == "" ) {
+            layer.msg('请输入内容', {icon: 2});
+            return;
+        }
+        $("#save_form").submit();
+    })
+
+</script>

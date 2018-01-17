@@ -1,0 +1,94 @@
+<!-- content start -->
+<script src="/statics/js/My97DatePicker/WdatePicker.js"></script>
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+           面料入库列表</strong></div>
+    </div>
+
+    <div class="am-g">
+
+        <form method="post" action="{{site_url url='material/list_stock_in'}}/1" class="search_form">
+
+            <div class="am-u-sm-12">
+                <div class="am-input-group am-input-group-sm">
+                    <input style="width: 210px;height: 40px;" type="text" class="am-form-field" name="keyword" value="{{$data.keyword}}" placeholder="请输入入库编号或客户名称">
+
+                </div>
+                <div class="am-input-group am-input-group-sm" style="margin-top: 15px;">
+                   创建时间:
+                    <input style="height: 40px;width: 180px"  class="form-control" id="s_date" name="s_date" type="text" value="{{$data.s_date|default:''}}"
+                           onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})"> —
+                    <input style="height: 40px;width: 180px"  class="form-control" id="e_date" name="e_date" type="text" value="{{$data.e_date|default:''}}"
+                           onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">
+                    <span class="am-input-group-btn" style="float: right;">
+                         <input type="submit" class="am-btn am-btn-default" value="搜索" style="margin-left: 10px;height:40px;" />
+                        <a style="margin-left: 10px;height:40px; line-height: 24px;" href="{{site_url url='material/add_stock'}}" class="am-btn am-btn-primary">新增</a>
+                    </span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <table class="am-table am-table-striped am-table-hover table-main">
+                <thead>
+                <tr>
+                    <th>入库单编号</th>
+                    <th>面料所属</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{foreach from=$data.items key=key item=item}}
+                <tr>
+                    <td>{{$item.form_name}}</td>
+                    <td><a>{{$item.cust_name}}</a></td>
+                    <td><a>{{$item.create_date}}</a></td>
+                    <td><div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a type="button" class="am-btn am-btn-primary" href="{{site_url url='material/add_news'}}/{{$item.id}}/{{$page}}">
+                                <span class="am-icon-pencil-square-o"></span> 详情
+                            </a>
+                            <a name="delete_btn" class="am-btn am-btn-danger" href="#">
+                                <input type="hidden" name="item_id" value="{{$item.id}}">
+                                <span class="am-icon-pencil-square-o"></span> 删除
+                            </a>
+                        </div>
+                    </div></td>
+                </tr>
+                {{/foreach}}
+                </tbody>
+            </table>
+            <div class="am-cf">{{$pager}}</div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="/statics/js/layer/layer.js"></script>
+<script>
+    $("a[name='delete_btn']").click(function(){
+        var id = $(this).find('input').eq(0).val();
+        layer.confirm('是否确定删除!', {
+            btn: ['同意','不同意'], //按钮
+            area: ['400px', 'auto']
+        }, function(){
+            $.getJSON("{{site_url url='news/delete_news'}}/"+id,function(data){
+                if(data == 1){
+                    var action = "{{site_url url='news/list_news'}}/{{$page}}"
+                    $('.search_form').attr('action',action);
+                    $('.search_form').submit();
+                }else{
+                    layer.msg('操作失败!', {icon: 2});
+                }
+            })
+        },function(){
+            //layer.msg('已取消!', {icon: 2});
+        });
+    })
+</script>
+<!-- content end -->
+
