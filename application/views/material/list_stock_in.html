@@ -13,7 +13,13 @@
 
             <div class="am-u-sm-12">
                 <div class="am-input-group am-input-group-sm">
-                    <input style="width: 210px;height: 40px;" type="text" class="am-form-field" name="keyword" value="{{$data.keyword}}" placeholder="请输入入库编号或客户名称">
+                    <select data-am-selected="{searchBox: 1,btnWidth: '550px',}" id="cust_id" name="cust_id">
+                        <option value="">--Select--</option>
+                        <option value="-1" {{if -1 == $data.cust_id}} selected="selected" {{/if}}>--公共库存--</option>
+                        {{foreach from=$cust key=key item=item}}
+                        <option value="{{$item.id}}" {{if $item.id == $data.cust_id}} selected="selected" {{/if}}>{{$item.name}}</option>
+                        {{/foreach}}
+                    </select>
 
                 </div>
                 <div class="am-input-group am-input-group-sm" style="margin-top: 15px;">

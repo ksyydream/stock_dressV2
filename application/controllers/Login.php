@@ -11,6 +11,10 @@ class Login extends CI_Controller {
 	}
 	
 	public function index($flag = null) {
+		if($this->session->userdata('user_info'))
+		{//登陆
+			redirect(site_url('index/index'));
+		}
 		$this->cismarty->assign('flag',$flag);//url路径
 		$this->cismarty->display('login.html');
 	}
@@ -27,6 +31,6 @@ class Login extends CI_Controller {
 	//注销登陆
 	public function logout(){
 		$this->session->sess_destroy();
-		redirect(site_url('login'));
+		redirect(site_url('login/index'));
 	}
 }

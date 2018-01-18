@@ -73,6 +73,8 @@ class Material extends MY_Controller {
 	public function list_stock_in($page=1){
 		$data = $this->material_model->list_stock_in($page);
 		$types = $this->material_model->list_material();
+		$cust = $this->cust_model->get_cust_all(1);
+		$this->assign('cust', $cust);
 		$base_url = "/material/list_stock_in/";
 		$pager = $this->pagination->getPageLink($base_url, $data['total'], $data['limit']);
 		$this->assign('pager', $pager);
