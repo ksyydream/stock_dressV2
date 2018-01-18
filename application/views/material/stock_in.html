@@ -18,7 +18,7 @@
         </div>
         <!--<div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">-->
             <div class="am-u-sm-12 am-u-md-10 am-u-md-pull-2">
-            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='news/save_news'}}">
+            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='material/save_stock'}}">
                 <input type="hidden" name="form_id" value="{{$detail.id|default:''}}">
                 <label class="am-u-sm-2 am-form-label">面料所属</label>
                 <div class="am-form-group">
@@ -29,6 +29,12 @@
                             <option value="{{$item.id}}">{{$item.name}}</option>
                             {{/foreach}}
                         </select>
+                    </div>
+                </div>
+                <label class="am-u-sm-2 am-form-label">备注(选填)</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <input type="text" class="am-form-field" id="remark" name="remark" value="">
                     </div>
                 </div>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
@@ -172,7 +178,7 @@
             "<td>" +
             "<input type='hidden' name='material_id[]' value='" + sel_material_id +"'>"+
             "<input type='hidden' name='color_id[]' value='" + sel_color_id +"'>"+
-            "<input type='hidden' name='hanghao[]' value='" + add_ganghao +"'>"+
+            "<input type='hidden' name='ganghao[]' value='" + add_ganghao +"'>"+
             " <a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a>"+
             "</td></tr>";
     for (var i=0;i<add_qty;i++)
@@ -215,12 +221,29 @@
     })
 
     $("#save_btn").click(function(){
-        var content = $("#content").val(ue.getContent());
-        if(content == "" ) {
-            layer.msg('请输入内容', {icon: 2});
+        var cust_id = $("#cust_id").val();
+        var flag=0;
+        if(cust_id == "" ) {
+            layer.msg('请选择面料所属', {icon: 2});
             return;
         }
-        $("#save_form").submit();
+        $("[name='meters[]']").each(function(){
+            if ($.trim($(this).val())==""){
+                layer.msg('存在面料没有填写米数!', {icon: 2});
+                flag=1;
+                $(this).select();
+                return false;
+            }
+        });
+        var length = $("#stock_tbody").find("yy_index").length;
+        if(length == 0){
+            layer.msg('需录入面料!', {icon: 2});
+            flag=1;return false;
+        }
+        if (flag !=1){
+            $("#save_form").submit();
+        }
+
     })
 
 </script>

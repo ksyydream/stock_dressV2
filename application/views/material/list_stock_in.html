@@ -38,6 +38,8 @@
                 <tr>
                     <th>入库单编号</th>
                     <th>面料所属</th>
+                    <th>总匹数</th>
+                    <th>型号</th>
                     <th>创建时间</th>
                     <th>操作</th>
                 </tr>
@@ -45,8 +47,10 @@
                 <tbody>
                 {{foreach from=$data.items key=key item=item}}
                 <tr>
-                    <td>{{$item.form_name}}</td>
+                    <td>{{$item.id}}</td>
                     <td><a>{{$item.cust_name}}</a></td>
+                    <td><a>{{$item.count_all}}</a></td>
+                    <td><a>{{$item.m_list}}</a></td>
                     <td><a>{{$item.create_date}}</a></td>
                     <td><div class="am-btn-toolbar">
                         <div class="am-btn-group am-btn-group-xs">

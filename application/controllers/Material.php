@@ -96,4 +96,18 @@ class Material extends MY_Controller {
 		}
 		$this->show('material/stock_in');
 	}
+
+	public function save_stock(){
+		if(!trim($this->input->post('cust_id'))){
+			$this->show_message('面料所属不能为空!');
+		}
+		$rs =$this->material_model->save_stock();
+		if($rs == 1){
+			$this->show_message('保存成功',site_url('material/list_stock_in'));
+		}elseif($rs == -2){
+			$this->show_message('面料详情有误!');
+		}else{
+			$this->show_message('保存失败!');
+		}
+	}
 }
