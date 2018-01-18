@@ -222,8 +222,11 @@ class Material_model extends MY_Model
 	public function list_stock_in($page){
 		$data['limit'] = $this->limit;
 		//获取总记录数
-		$this->db->select('count(1) num')->from('material_in_form a');
+		$this->db->select('count(distinct(a.id)) as num')->from('material_in_form a');
 		$this->db->join('cust b','a.cust_id = b.id','left');
+		$this->db->join('material_in_form_detail c','c.form_id = a.id','left');
+		$this->db->join('material d','c.material_id = d.id','left');
+		$this->db->join('material_color e','c.color_id = e.id','left');
 		if($this->input->post('keyword')){
 			$this->db->like('a.form_name',$this->input->post('keyword'));
 		}
@@ -233,6 +236,7 @@ class Material_model extends MY_Model
 		if($this->input->post('flag')){
 			$this->db->where("a.flag",$this->input->post('flag'));
 		}
+
 		$num = $this->db->get()->row();
 		$data['total'] = $num->num;
 
@@ -241,8 +245,11 @@ class Material_model extends MY_Model
 		$data['cust_id'] = $this->input->post('cust_id')?$this->input->post('cust_id'):null;
 		$data['keyword'] = $this->input->post('keyword')?$this->input->post('keyword'):null;
 		//获取详细列
-		$this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name")->from('material_in_form a');
+		$this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name,group_concat(distinct d.material_name ORDER BY d.material_name) m_list,count(c.id) as count_all")->from('material_in_form a');
 		$this->db->join('cust b','a.cust_id = b.id','left');
+		$this->db->join('material_in_form_detail c','c.form_id = a.id','left');
+		$this->db->join('material d','c.material_id = d.id','left');
+		$this->db->join('material_color e','c.color_id = e.id','left');
 		if($this->input->post('keyword')){
 			$this->db->like('a.form_name',$this->input->post('keyword'));
 		}
@@ -252,11 +259,84 @@ class Material_model extends MY_Model
 		if($this->input->post('flag')){
 			$this->db->where("a.flag",$this->input->post('flag'));
 		}
+		$this->db->group_by('a.id');
 		$this->db->limit($data['limit'], $offset = ($page - 1) * $data['limit']);
 		$this->db->order_by('a.id','desc');
 		$data['items'] = $this->db->get()->result_array();
 
+
 		return $data;
+	}
+
+	public function save_stock(){
+		$material_ids = $this->input->post('material_id');
+		$color_ids = $this->input->post('color_id');
+		$ganghaos = $this->input->post('ganghao');
+		$meters_list= $this->input->post('meters');
+		$cust_id = $this->input->post('cust_id');
+		$remark = $this->input->post('remark');
+		$stock_list = array();
+		if(!is_array($material_ids)){
+			return -2;
+		}
+		if($material_ids){
+			foreach($material_ids as $idx => $material_id) {
+				$stock_ = array(
+					'material_id' => $material_id,
+					'color_id' => $color_ids[$idx],
+					'ganghao' => trim($ganghaos[$idx]),
+					'original_meters' => trim($meters_list[$idx]),
+					'turn_meters' => trim($meters_list[$idx]),
+					'cust_id' => $cust_id,
+					'original_cust_id' => $cust_id,
+					'create_date'=>date('Y-m-d H:i:s'),
+					'modify_date'=>date('Y-m-d H:i:s'),
+					'create_user'=>$this->session->userdata('user_id'),
+					'modify_user'=>$this->session->userdata('user_id'),
+					'flag'=>1
+				);
+				if($stock_['material_id']=="" || $stock_['color_id']=="" || $stock_['ganghao']=="" || $stock_['turn_meters']==""){
+					return -2;
+				}
+				$stock_list[] = $stock_;
+			}
+		}else{
+			return -2;
+		}
+		if(!$stock_list){
+			return -2;
+		}
+		$this->db->trans_start();//--------开始事务
+		$data_form = array(
+			'cust_id'=>	$cust_id,
+			'remark'=>	$remark,
+			'create_date'=>date('Y-m-d H:i:s'),
+			'modify_date'=>date('Y-m-d H:i:s'),
+			'create_user'=>$this->session->userdata('user_id'),
+			'modify_user'=>$this->session->userdata('user_id'),
+			'flag'=>1
+		);
+		$this->db->insert('material_in_form',$data_form);
+		$form_id = $this->db->insert_id();
+		$newStr=str_pad($form_id,4,"0",STR_PAD_LEFT);
+		$this->db->where('id',$form_id)->update('material_in_form',array('form_name'=>'MI'.date('ymd', time()).$newStr));
+		$stock_ins=array();
+		$form_details = array();
+		foreach($stock_list as $id_ => $s_){
+			$detail_ = $s_;
+			$detail_['form_id'] = $form_id;
+			$stock_ins[] = $detail_;
+			$form_details[] = $detail_;
+		}
+		$this->db->insert_batch('material_in_form_detail',$stock_ins);
+		$this->db->insert_batch('material_stock',$form_details);
+		$this->db->trans_complete();//------结束事务
+		if ($this->db->trans_status() === FALSE) {
+			return -1;
+		} else {
+			return 1;
+		}
+
 	}
 
 }
