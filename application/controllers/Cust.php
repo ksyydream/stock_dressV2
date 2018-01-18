@@ -11,7 +11,7 @@ class Cust extends MY_Controller {
 			redirect(site_url('index/index'));
 		}
 	}
-//面料型号管理
+//面料型号 管理
 	public function list_cust($page=1){
 		$flag = $this->input->post('flag');
 		$keyword = $this->input->post('keyword');
