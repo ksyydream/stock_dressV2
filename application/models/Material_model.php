@@ -193,7 +193,7 @@ class Material_model extends MY_Model
 		return $this->db->get()->row_array();
 	}
 
-	public function get_material_all($flag){
+	public function get_material_all($flag=null){
 		//获取详细列
 		$this->db->select('a.material_name,a.id')->from('material a');
 		if($flag){
@@ -205,7 +205,7 @@ class Material_model extends MY_Model
 		return $data;
 	}
 
-	public function get_color_all($flag){
+	public function get_color_all($flag=null){
 		//获取详细列
 		$this->db->select('a.color_name,a.id')->from('material_color a');
 		if($flag){

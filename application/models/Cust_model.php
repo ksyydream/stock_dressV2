@@ -101,7 +101,7 @@ class Cust_model extends MY_Model
 		return $this->db->get()->row_array();
 	}
 
-	public function get_cust_all($flag){
+	public function get_cust_all($flag=null){
 		//获取详细列
 		$this->db->select('a.name,a.id')->from('cust a');
 		if($flag){

@@ -72,7 +72,7 @@ class Material extends MY_Controller {
 
 	public function list_stock_in($page=1){
 		$data = $this->material_model->list_stock_in($page);
-		$cust = $this->cust_model->get_cust_all(1);
+		$cust = $this->cust_model->get_cust_all();
 		$this->assign('cust', $cust);
 		$base_url = "/material/list_stock_in/";
 		$pager = $this->pagination->getPageLink($base_url, $data['total'], $data['limit']);
@@ -124,9 +124,9 @@ class Material extends MY_Controller {
 	//面料库存
 	public function list_stock($page=1){
 		$data = $this->material_model->list_stock($page);
-		$material = $this->material_model->get_material_all(1);
-		$cust = $this->cust_model->get_cust_all(1);
-		$color = $this->material_model->get_color_all(1);
+		$material = $this->material_model->get_material_all();
+		$cust = $this->cust_model->get_cust_all();
+		$color = $this->material_model->get_color_all();
 		$this->assign('material', $material);
 		$this->assign('cust', $cust);
 		$this->assign('color', $color);
