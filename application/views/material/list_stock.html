@@ -1,0 +1,145 @@
+<!-- content start -->
+<script src="/statics/js/My97DatePicker/WdatePicker.js"></script>
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+           面料库存列表</strong></div>
+    </div>
+
+    <div class="am-g">
+<form method="post" action="{{site_url url='material/down_excel_stock'}}" id="excel_form">
+    <input type="hidden" name="cust_id" value="{{$data.cust_id|default:''}}">
+    <input type="hidden" name="material_id" value="{{$data.material_id|default:''}}">
+    <input type="hidden" name="color_id" value="{{$data.color_id|default:''}}">
+    <input type="hidden" name="ganghao" value="{{$data.ganghao|default:''}}">
+    <input type="hidden" name="Istart_date" value="{{$data.Istart_date|default:''}}">
+    <input type="hidden" name="Iend_date" value="{{$data.Iend_date|default:''}}">
+
+</form>
+        <form method="post" action="{{site_url url='material/list_stock'}}/1" class="search_form">
+
+            <div class="am-u-sm-12">
+                <select data-am-selected="{searchBox: 1}" placeholder="面料所属" id="cust_id" name="cust_id">
+                    <option value="-2">全部面料所属</option>
+                    <option value="-1" {{if -1 == $data.cust_id}} selected="selected" {{/if}}>--公共库存--</option>
+                    {{foreach from=$cust key=key item=item}}
+                    <option value="{{$item.id}}" {{if $item.id == $data.cust_id}} selected="selected" {{/if}}>{{$item.name}}</option>
+                    {{/foreach}}
+                </select>
+                <select data-am-selected="{searchBox: 1}" placeholder="面料型号" id="material_id" name="material_id">
+                    <option value="-2">全部面料型号</option>
+                    {{foreach from=$material key=key item=item}}
+                    <option value="{{$item.id}}" {{if $item.id == $data.material_id}} selected="selected" {{/if}}>{{$item.material_name}}</option>
+                    {{/foreach}}
+                </select>
+                <select data-am-selected="{searchBox: 1}" placeholder="面料颜色" id="color_id" name="color_id">
+                    <option value="-2">全部面料颜色</option>
+                    {{foreach from=$color key=key item=item}}
+                    <option value="{{$item.id}}" {{if $item.id == $data.color_id}} selected="selected" {{/if}}>{{$item.color_name}}</option>
+                    {{/foreach}}
+                </select>
+                <div class="am-form-inline">
+                    <div class="am-input-group am-input-group-sm am-form-inline" style="margin-top: 15px;">
+
+                        入库时间:
+                        <input style="height: 40px;width: 180px"  class="form-control" id="Istart_date" name="Istart_date" type="text" value="{{$data.Istart_date|default:''}}"
+                               onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})"> —
+                        <input style="height: 40px;width: 180px"  class="form-control" id="Iend_date" name="Iend_date" type="text" value="{{$data.Iend_date|default:''}}"
+                               onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">
+
+                    </div>
+                    <div class="am-input-group" style="margin-top: 15px;">
+                        <input type="text"  class="am-form-field" placeholder="请填写缸号" name="ganghao" value="{{$data.ganghao|default:''}}">
+                    </div>
+                    <div class="am-input-group" style="margin-top: 15px;">
+                        <span class="am-input-group-btn" style="float: right;">
+                         <input type="submit" class="am-btn am-btn-default" value="搜索" style="margin-left: 10px;height:40px;" />
+                            <input type="button" class="am-btn am-btn-success" id="excel_btn" value="导出表报" style="margin-left: 10px;height:40px;" />
+                    </span>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </form>
+    </div>
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <table class="am-table am-table-striped am-table-hover table-main">
+                <thead>
+                <tr>
+
+                    <th>面料型号</th>
+                    <th>面料所属</th>
+                    <th>面料颜色</th>
+                    <th>缸号</th>
+                    <th>原始米数</th>
+                    <th>剩余米数</th>
+                    <th>入库时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{foreach from=$data.items key=key item=item}}
+                <tr>
+
+                    <td><a>{{$item.material_name}}</a></td>
+                    <td><a>{{$item.cust_name}}</a></td>
+                    <td><a>{{$item.color_name}}</a></td>
+                    <th><a>{{$item.ganghao}}</a></th>
+                    <td><a>{{$item.original_meters}}</a></td>
+                    <td><a>{{$item.turn_meters}}</a></td>
+                    <td><a>{{$item.in_date}}</a></td>
+                    <td><div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                           <!--    <a type="button" class="am-btn am-btn-primary" href="">
+                                <span class="am-icon-pencil-square-o"></span> 详情
+                            </a>
+                            <a name="delete_btn" class="am-btn am-btn-danger" href="#">
+                                <input type="hidden" name="item_id" value="{{$item.id}}">
+                                <span class="am-icon-pencil-square-o"></span> 删除
+                            </a>-->
+                        </div>
+                    </div></td>
+                </tr>
+                {{/foreach}}
+                </tbody>
+            </table>
+            <div class="am-cf">{{$pager}}</div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="/statics/js/layer/layer.js"></script>
+<script>
+    $("#excel_btn").click(function(){
+
+        $("#excel_form").submit();
+    })
+    /* $("a[name='delete_btn']").click(function(){
+        var id = $(this).find('input').eq(0).val();
+        layer.confirm('是否确定删除!', {
+            btn: ['同意','不同意'], //按钮
+            area: ['400px', 'auto']
+        }, function(){
+
+            $.getJSON("{{site_url url='news/delete_news'}}/"+id,function(data){
+                if(data == 1){
+                    var action = "{{site_url url='news/list_news'}}/{{$page}}"
+                    $('.search_form').attr('action',action);
+                    $('.search_form').submit();
+                }else{
+                    layer.msg('操作失败!', {icon: 2});
+                }
+            })
+        },function(){
+            //layer.msg('已取消!', {icon: 2});
+        });
+    })*/
+</script>
+<!-- content end -->
+

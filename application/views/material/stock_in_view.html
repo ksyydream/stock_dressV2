@@ -23,73 +23,24 @@
                 <label class="am-u-sm-2 am-form-label">面料所属</label>
                 <div class="am-form-group">
                     <div class="am-u-sm-10">
-                        <select data-am-selected="{searchBox: 1,btnWidth: '550px',}" id="cust_id" name="cust_id">
-                            <option value="-1">--公共库存--</option>
-                            {{foreach from=$cust key=key item=item}}
-                            <option value="{{$item.id}}">{{$item.name}}</option>
-                            {{/foreach}}
-                        </select>
+                        <input type="text" readonly="readonly" class="am-form-field" id="cust_name" name="cust_name" value="{{$detail.cust_name|default:''}}">
                     </div>
                 </div>
                 <label class="am-u-sm-2 am-form-label">入库时间</label>
                 <div class="am-form-group">
                     <div class="am-u-sm-10">
-                        <input type="text" class="am-form-field" id="in_date" name="in_date" value="{{$today}}" placeholder="日历组件" data-am-datepicker readonly required style="width:200px"/></td>
+                        <input type="text" readonly="readonly" class="am-form-field" id="in_date" name="in_date" value="{{$detail.in_date|default:''}}">
                     </div>
                 </div>
                 <label class="am-u-sm-2 am-form-label">备注(选填)</label>
                 <div class="am-form-group">
                     <div class="am-u-sm-10">
-                        <input type="text" class="am-form-field" id="remark" name="remark" value="">
+                        <input type="text" readonly="readonly" class="am-form-field" id="remark" name="remark" value="{{$detail.remark|default:''}}">
                     </div>
                 </div>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-                <table class="am-table">
-                    <thead>
-                    <tr>
-                        <th>面料型号</th>
-                        <th>面料颜色</th>
-                        <th>缸号</th>
-                        <th>匹数</th>
-                        <th>米数(最多两位小数)(选填)</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <select data-am-selected="{searchBox: 1}" id="sel_material_id">
-                                <option value="">--Select--</option>
-                            {{foreach from=$material key=key item=item}}
-                            <option value="{{$item.id}}">{{$item.material_name}}</option>
-                            {{/foreach}}
-                        </select>
-                        </td>
-                        <td>
-                            <select data-am-selected="{searchBox: 1}" id="sel_color_id">
-                                <option value="">--Select--</option>
-                                {{foreach from=$color key=key item=item}}
-                                <option value="{{$item.id}}">{{$item.color_name}}</option>
-                                {{/foreach}}
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" class="am-form-field" id="add_ganghao" value="">
-                        </td>
-                        <td>
-                            <input type="text" class="am-form-field" name="add_qty" id="add_qty" value="">
-                        </td>
-                        <td>
-                            <input type="text" class="am-form-field" id="add_meters" value="">
-                        </td>
-                        <td>
-                            <a class="am-btn am-btn-success" id="add_m_btn"  href="javascript:void(0);">添加</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
                 <div class="am-form-group">
-                    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">面料 <a id="del_empty" class="am-btn am-btn-danger am-btn-xs" href="javascript:void(0);">删除未填写米数的面料</a></strong>
+                    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">面料</strong>
 
                     </div>
                     <table class="am-table am-table-bordered am-table-radius am-table-striped" id="stock_table">
@@ -100,17 +51,24 @@
                             <th>面料颜色</th>
                             <th>缸号</th>
                             <th width="20%">米数</th>
-                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody id="stock_tbody">
+                        {{foreach from=$detail.list key=key item=item}}
+                       <tr>
+                           <td>{{$key+1}}</td>
+                           <td>{{$item.material_name}}</td>
+                           <td>{{$item.color_name}}</td>
+                           <td>{{$item.ganghao}}</td>
+                           <td>{{$item.original_meters}}</td>
+                       </tr>
+                        {{/foreach}}
                         </tbody>
                     </table>
 
                 </div>
                 <div class="am-form-group">
                     <div class="am-u-sm-9 am-u-sm-push-3">
-                        <button type="button" id="save_btn" class="am-btn am-btn-danger" id="doc-confirm-toggle">提交</button>
                         <a class="am-btn am-btn-default" href="{{site_url url='material/list_stock_in'}}/{{$page}}">返回</a>
                     </div>
                 </div>
