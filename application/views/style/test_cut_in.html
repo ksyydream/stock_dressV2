@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<link href="/statics/css/lightbox.min.css" rel="stylesheet" type="text/css" >
+<link rel="stylesheet" href="/statics/amaze/css/app.css">
+<style type="text/css">
+
+</style>
+<!-- content start -->
+<div class="admin-content">
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">裁剪入库单</strong> /
+            <small>CUT ORDER</small>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+        <!--<div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">-->
+
+        <!--</div>-->
+        <div class="am-u-sm-12">
+            <form id="rescore_form" action="{{site_url url='company/re_score'}}" method="post">
+                <input type="hidden" name="company_id" value="">
+            </form>
+            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='cutorder/save_1'}}/">
+                <input type="hidden" name="form_id" value="{{$detail.id|default:''}}">
+                <label class="am-u-sm-2 am-form-label">客户</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <select data-am-selected="{searchBox: 1,btnWidth: '550px',}" id="cust_id" name="cust_id">
+                            <option value="-1">--公共库存--</option>
+                            {{foreach from=$cust key=key item=item}}
+                            <option value="{{$item.id}}">{{$item.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+                <label class="am-u-sm-2 am-form-label">入库时间</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <input type="text" class="am-form-field" id="plan_date" name="plan_date" value="{{$today}}" placeholder="日历组件" data-am-datepicker readonly required style="width:200px"/></td>
+                    </div>
+                </div>
+
+                <label class="am-u-sm-2 am-form-label">备注(选填)</label>
+                <div class="am-form-group">
+                    <div class="am-u-sm-10">
+                        <input type="text" class="am-form-field" id="remark" name="remark" value="">
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-9 am-u-sm-push-3">
+                        <button type="button" id="save_btn" class="am-btn am-btn-danger" id="doc-confirm-toggle">提交</button>
+                    </div>
+                </div>
+                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<link href="{{$base_url}}statics/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<script src="{{$base_url}}statics/js/jquery-ui/jquery-ui.min.js"></script>
+<!--plupload start--------------------------------------------------------------------------->
+<!-- Load plupload and all it's runtimes and finally the UI widget -->
+<!--plupload END--------------------------------------------------------------------------->
+<script type="text/javascript" src="/statics/js/layer/layer.js"></script>
+<script type="text/javascript" src="/statics/js/lightbox-plus-jquery.min.js"></script>
+<script>
+    $(function() {
+        $("#save_btn").click(function(){
+
+            $("#save_form").submit();
+        })
+
+        $("#repwd_btn").click(function(){
+            var id = $("#company_id").val();
+                layer.confirm("是否确认重置密码为初始密码 123456 ?", {
+                    btn: ['确定','取消'], //按钮
+                    area: ['500px', 'auto']
+                    , btn1:function(){
+                        $.getJSON("{{site_url url='company/re_pwd'}}/"+id,function(data){
+                            if(data == 1){
+                                layer.msg('重置成功!', {icon: 1});
+                            }else{
+                                layer.msg('操作失败!', {icon: 2});
+                            }
+                        })
+                    },btn2:function(){
+
+                    },cancel:function(){
+
+                    }
+                })
+        })
+
+        $("#rescore_btn").click(function(){
+            var id = $("#company_id").val();
+            layer.confirm("是否确认重置分数为默认分数 80 ?", {
+                btn: ['确定','取消'], //按钮
+                area: ['500px', 'auto']
+                , btn1:function(){
+                    $("#rescore_form").submit();
+                },btn2:function(){
+
+                },cancel:function(){
+
+                }
+            })
+        })
+
+        $("a[name='eidt_btn']").click(function(){
+            var id = $(this).find('input').eq(0).val();
+            $.getJSON('/admin.php/event/get_event_detail/'+id, function(data) {
+                if(data == -1){
+                    layer.msg('打开失败,此事件不存在!', {icon: 2});return false;
+                }else{
+                    $('#event_id').val(data.id)
+                    $('#edit_type_name').val(data.type_name)
+                    $('#edit_company_name').val(data.company_name)
+                    $('#edit_event_date').val(data.event_date)
+                    $('#edit_remark').val(data.remark)
+                    $('#edit_result').val(data.result)
+                    $('#edit_handler').val(data.handler)
+                    $('#edit_meno').val(data.meno)
+                    $('#am-edit-event').modal('open');
+                }
+            });
+        })
+
+
+    })
+
+</script>

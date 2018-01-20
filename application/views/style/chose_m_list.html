@@ -1,0 +1,14 @@
+
+{{foreach from=$list key=key item=item}}
+<tr>
+    <td>{{$item.material_name}}</td>
+    <td>{{$item.color_name}}</td>
+    <td>{{$item.ganghao}}</td>
+    <td>{{$item.turn_meters}}</td>
+    <td>{{$item.in_date}}</td>
+    <td>
+        <input type="hidden" name="ch_material_id[]" value="{{$item.id}}">
+        <input type="checkbox" name="ch_check_id[]" value="{{$item.id}}" data-am-ucheck>
+    </td>
+</tr>
+{{/foreach}}

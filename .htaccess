@@ -24,8 +24,8 @@ RewriteEngine on
 #去掉链接地址中index.php字符串
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond $1 !^(admin.php|test.php|test_ui.php|images|touch|robots\.txt)
-RewriteRule ^(.*)$ admin.php/$1 [L]
+RewriteCond $1 !^(index.php|test.php|test_ui.php|images|touch|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]
 
 
 </IfModule>
