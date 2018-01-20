@@ -46,15 +46,17 @@
             </form>
             <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='cutorder/save_1'}}/">
                 <input type="hidden" id="cust_id" name="cust_id" value="{{$detail.cust_id|default:''}}">
-                <input type="hidden" name="cut_order_id" value="{{$detail.id|default:''}}">
+                <input type="hidden" name="cut_order_id" id="cut_order_id" value="{{$detail.id|default:''}}">
                 <a class="am-btn am-btn-warning" id="add_m" href="javascript:void(0);">
                     <i class="am-icon-shopping-cart"></i>
                     添加公共面料
                 </a>
+                {{if $detail.cust_id !=-1}}
                 <a class="am-btn am-btn-warning" id="add_m2" href="javascript:void(0);">
                     <i class="am-icon-shopping-cart"></i>
                     添加客户面料
                 </a>
+                {{/if}}
                 <div style="width: 99%;height: 530px;overflow-y: auto">
                 <table class="am-table am-table-bordered am-table-radius am-table-striped">
                     <thead>
@@ -937,16 +939,17 @@
         })
         $("#tijiao_btn").click(function(){
             var style_id = $('#style_id2').val();
-            var use_meters4one = $('#use_meters4one2').val();
-            var use_XS2 = $('#use_XS2').val();
-            var use_S2 = $('#use_S2').val();
-            var use_M2 = $('#use_M2').val();
-            var use_L2 = $('#use_L2').val();
-            var use_XL2 = $('#use_XL2').val();
-            var use_2XL2 = $('#use_2XL2').val();
-            var use_3XL2 = $('#use_3XL2').val();
-            var use_4XL2 = $('#use_4XL2').val();
+            var use_meters4one = $.trim($('#use_meters4one2').val());
+            var use_XS2 = $.trim($('#use_XS2').val());
+            var use_S2 = $.trim($('#use_S2').val());
+            var use_M2 = $.trim($('#use_M2').val());
+            var use_L2 = $.trim($('#use_L2').val());
+            var use_XL2 = $.trim($('#use_XL2').val());
+            var use_2XL2 = $.trim($('#use_2XL2').val());
+            var use_3XL2 = $.trim($('#use_3XL2').val());
+            var use_4XL2 = $.trim($('#use_4XL2').val());
             var cut_order_id = $("#cut_order_id").val();
+
             if(style_id=='-2'||style_id==""){
                 layer.msg('请选择款式!', {icon: 2});return false;
             }
@@ -958,9 +961,19 @@
             }else{
                 layer.msg('请填写用料!', {icon: 2});return false;
             }
+            if((use_XS2=="" || parseInt(use_XS2)==0)&&
+                    (use_S2=="" || parseInt(use_S2)==0)&&
+                    (use_M2=="" || parseInt(use_M2)==0)&&
+                    (use_L2=="" || parseInt(use_L2)==0)&&
+                    (use_XL2=="" || parseInt(use_XL2)==0)&&
+                    (use_2XL2=="" || parseInt(use_2XL2)==0)&&
+                    (use_3XL2=="" || parseInt(use_3XL2)==0)&&
+                    (use_4XL2=="" || parseInt(use_4XL2)==0)){
+                layer.msg('请填写比例!', {icon: 2});return false;
+            }
             var stock_ids = [];
             $("input[name='ch_check_id[]']:checked").each(function(){
-                stock_ids.push($(this).val());
+               stock_ids.push($(this).val());
             })
             if(!stock_ids){
                 layer.msg('请选择面料!', {icon: 2});return false;

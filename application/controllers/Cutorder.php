@@ -67,10 +67,11 @@ class Cutorder extends MY_Controller {
 		$material_id = $this->input->post('material_id');
 		$color_id = $this->input->post('color_id');
 		$ganghao = $this->input->post('ganghao');
+		$cut_order_id = $this->input->post('cut_order_id');
 		if(!$cust_id){
 			//return -1;
 		}
-		$list= $this->material_model->get_m_list4cut($cust_id,$material_id,$color_id,$ganghao);
+		$list= $this->material_model->get_m_list4cut($cust_id,$material_id,$color_id,$ganghao,$cut_order_id);
 		//die(var_dump($view_p));
 		$this->assign('list', $list);
 		$this->display('style/chose_m_list.html');

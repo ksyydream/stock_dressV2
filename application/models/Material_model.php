@@ -570,6 +570,7 @@ class Material_model extends MY_Model
 		$this->db->where("a.status",1);
 		$this->db->order_by('a.in_date','desc');
 		$data = $this->db->get()->result_array();
+		//die(var_dump($this->db->last_query()));
 		return $data;
 	}
 

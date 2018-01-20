@@ -45,6 +45,7 @@ class Cutorder_model extends MY_Model
 
     public function cut_in_mstock(){
         $re = 1;
+        //die(var_dump($this->input->post()));
         $data=array(
             'cut_order_id'=>$this->input->post('cut_order_id'),
             'p_xs'=>$this->input->post('use_XS2')?$this->input->post('use_XS2'):0,
@@ -63,6 +64,7 @@ class Cutorder_model extends MY_Model
             'create_user'=>$this->session->userdata('user_id'),
             'modify_user'=>$this->session->userdata('user_id')
         );
+
         if(!$data['cut_order_id'])
             return -2;
         if($data['one_use']<=0)
@@ -90,11 +92,12 @@ class Cutorder_model extends MY_Model
                         'cut_order_id'=>$data['cut_order_id'],
                     ))->get()->row_array();
                     if(!$check_){//坚持是否存在同一匹布 重复添加
-                        $insert_arr[]=$data;
-                        $insert_arr['cust_id']=$m_stock['cust_id'];
-                        $insert_arr['material_id']=$m_stock['material_id'];
-                        $insert_arr['ganghao']=$m_stock['ganghao'];
-                        $insert_arr['material_stock_id']=$m_stock['id'];
+                        $insert_1=$data;
+                        $insert_1['cust_id']=$m_stock['cust_id'];
+                        $insert_1['material_id']=$m_stock['material_id'];
+                        $insert_1['ganghao']=$m_stock['ganghao'];
+                        $insert_1['material_stock_id']=$m_stock['id'];
+                        $insert_arr[]=$insert_1;
                     }
                 }else{
                     $re = -3;
