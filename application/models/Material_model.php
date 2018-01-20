@@ -536,5 +536,42 @@ class Material_model extends MY_Model
 		return $data;
 	}
 
+	public function get_m_list4cut($cust_id=null,$material_id=null,$color_id=null,$ganghao=null,$cut_order_id=null){
+		$ready_in = array();
+		if($cut_order_id){
+			$cut_detail = $this->db->select('material_stock_id')->from('cut_order_detail')->where('cut_order_id',$cut_order_id)->get()->result_array();
+			if($cut_detail){
+				foreach($cut_detail as $detail_){
+					$ready_in[] = $detail_['material_stock_id'];
+				}
+			}
+		}
+
+		$this->db->select("a.*,d.material_name,e.color_name,IFNULL(b.name,'公共库存') cust_name")->from('material_stock a');
+		$this->db->join('cust b','a.cust_id = b.id','left');
+		$this->db->join('material d','a.material_id = d.id','left');
+		$this->db->join('material_color e','a.color_id = e.id','left');
+		if($material_id&& $material_id!='-2'){
+			$this->db->where('a.material_id',$material_id);
+		}
+		if($cust_id && $cust_id!='-2'){
+			$this->db->where('a.cust_id',$cust_id);
+		}
+		if($color_id && $color_id!='-2'){
+			$this->db->where('a.color_id',$color_id);
+		}
+		if($ganghao){
+			$this->db->like("a.ganghao",$ganghao);
+		}
+		if($ready_in){
+			$this->db->where_not_in('a.id',$ready_in);
+		}
+		$this->db->where("a.flag",1);
+		$this->db->where("a.status",1);
+		$this->db->order_by('a.in_date','desc');
+		$data = $this->db->get()->result_array();
+		return $data;
+	}
+
 
 }

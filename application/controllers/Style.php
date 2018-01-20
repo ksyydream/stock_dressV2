@@ -30,6 +30,12 @@ class Style extends MY_Controller {
 		die;
 	}
 
+	public function get_style_all($flag){
+		$list = $this->style_model->get_style_all($flag);
+		echo json_encode($list);
+		die;
+	}
+
 	public function delete_style($id){
 		echo $this->style_model->delete_style($id);
 	}
