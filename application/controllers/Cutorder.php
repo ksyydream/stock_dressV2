@@ -78,7 +78,12 @@ class Cutorder extends MY_Controller {
 	}
 
 	public function cut_in_mstock(){
-		echo $this->cutorder_model->cut_in_mstock();
+		$data =  $this->cutorder_model->cut_in_mstock();
+		if($data==-1 || $data ==-2){
+			echo $data;
+		}
+		$this->assign('list', $data);
+		$this->display('style/show_m_list4cut.html');
 	}
 
 

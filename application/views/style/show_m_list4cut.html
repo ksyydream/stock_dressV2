@@ -1,0 +1,49 @@
+
+{{foreach from=$list key=key item=item}}
+<tr>
+    <td>{{$item.style_name}}</td>
+    <td>{{if $item.cust_id == -1}}<span class="am-badge am-badge-success">公共</span>{{/if}}{{$item.material_name}}</td>
+    <td>{{$item.color_name}}</td>
+    <td>{{$item.ganghao}}</td>
+    <td>
+        <input type="text" class="yy_control_int"   style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_XS[]" value="{{$item.ls_xs}}">
+    </td>
+    <td>
+        <input type="text"  class="yy_control_int" style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_S[]" value="{{$item.ls_s}}">
+    </td>
+    <td>
+        <input type="text" class="yy_control_int"  style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_M[]" value="{{$item.ls_m}}">
+    </td>
+    <td>
+        <input type="text" class="yy_control_int" style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_L[]" value="{{$item.ls_l}}">
+    </td>
+    <td>
+        <input type="text" class="yy_control_int" style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_XL[]" value="{{$item.ls_xl}}">
+    </td>
+    <td>
+        <input type="text" class="yy_control_int" style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_2XL[]" value="{{$item.ls_2xl}}">
+    </td>
+    <td>
+        <input type="text" class="yy_control_int" style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_3XL[]" value="{{$item.ls_3xl}}">
+    </td>
+    <td>
+        <input type="text" class="yy_control_int" style="font-size:1.0rem;width: 40px" maxlength="3"  name="work_4XL[]" value="{{$item.ls_4xl}}">
+    </td>
+    <td>
+        <yy_all>{{$item.ls_all}}</yy_all>
+    </td>
+    <td>
+        <yy_one_meters>{{$item.one_use}}</yy_one_meters>
+    </td>
+    <td>
+        <yy_turn_meters>{{$item.turn_meters}}</yy_turn_meters>
+    </td>
+    <td>
+        <yy_leave_meters>{{$item.ls_leave_m}}</yy_leave_meters>
+    </td>
+    <td>
+        <input type="text" style="font-size:1.0rem;width: 80px"  name="remark[]" value="">
+    </td>
+    <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
+</tr>
+{{/foreach}}

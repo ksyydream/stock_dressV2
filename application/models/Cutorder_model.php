@@ -79,6 +79,7 @@ class Cutorder_model extends MY_Model
         if(!is_array($stock_ids))
             return -2;
         $insert_arr = array();
+        $show_stock_ids=array();
         foreach($stock_ids as $v_){
             if($v_>0){
                 $m_stock = $this->db->select('*')->from('material_stock')->where(array(
@@ -97,6 +98,7 @@ class Cutorder_model extends MY_Model
                         $insert_1['material_id']=$m_stock['material_id'];
                         $insert_1['ganghao']=$m_stock['ganghao'];
                         $insert_1['material_stock_id']=$m_stock['id'];
+                        $show_stock_ids[]=$m_stock['id'];
                         $insert_arr[]=$insert_1;
                     }
                 }else{
@@ -107,7 +109,34 @@ class Cutorder_model extends MY_Model
         if(!$insert_arr)
             return -2;
         $this->db->insert_batch('cut_order_detail',$insert_arr);
-        return $re;
+        $this->db->select("a.*,d.material_name,e.color_name,c.style_name,b.turn_meters,b.ganghao,b.cust_id")->from('material_stock b');
+        $this->db->join('cut_order_detail a','a.material_stock_id = b.id','inner');
+        $this->db->join('style c','a.style_id = c.id','left');
+        $this->db->join('material d','b.material_id = d.id','left');
+        $this->db->join('material_color e','b.color_id = e.id','left');
+        $this->db->where(array(
+           'b.flag'=>1,
+            'b.status'=>1,
+        ));
+        $this->db->where_in('b.id',$show_stock_ids);
+        $show_data = $this->db->get()->result_array();
+        foreach($show_data as $key_=>$show_){
+            $p_all = $show_['p_xs'] + $show_['p_s'] + $show_['p_m'] + $show_['p_l'] + $show_['p_xl'] + $show_['p_2xl'] + $show_['p_3xl'] + $show_['p_4xl'];
+            $turn_meters_ = $show_['turn_meters'];
+            $one_use_ = $show_['one_use'];
+            $use_p_ = floor($turn_meters_/($one_use_*$p_all));
+            $show_data[$key_]['ls_xs'] = round($show_['p_xs']*$use_p_);
+            $show_data[$key_]['ls_s'] = round($show_['p_s']*$use_p_);
+            $show_data[$key_]['ls_m'] = round($show_['p_m']*$use_p_);
+            $show_data[$key_]['ls_l'] = round($show_['p_l']*$use_p_);
+            $show_data[$key_]['ls_xl'] = round($show_['p_xl']*$use_p_);
+            $show_data[$key_]['ls_2xl'] = round($show_['p_2xl']*$use_p_);
+            $show_data[$key_]['ls_3xl'] = round($show_['p_3xl']*$use_p_);
+            $show_data[$key_]['ls_4xl'] = round($show_['p_4xl']*$use_p_);
+            $show_data[$key_]['ls_all'] = $p_all*$use_p_;
+            $show_data[$key_]['ls_leave_m'] = round(($turn_meters_ - $one_use_*$p_all*$use_p_),2);
+        }
+        return $show_data;
 
     }
 

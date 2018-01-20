@@ -8,7 +8,7 @@
     .am-table td,.am-table th{font-size:1.1rem;text-align: center;height: 15px}
     .am-selected-btn{width:110px;font-size:1.1rem}
     .fl{ float: left;}
-    .yy_control_int{}
+    .yy_control_int{font-size:1.1rem;}
 </style>
 <!-- content start -->
 <div class="admin-content">
@@ -67,6 +67,9 @@
                         <th rowspan="2">缸号</th>
                         <th colspan="8">数量</th>
                         <th rowspan="2">总数</th>
+                        <th rowspan="2">单件用料</th>
+                        <th rowspan="2">可用米数</th>
+                        <th rowspan="2">面料余料</th>
                         <th rowspan="2">备注</th>
                         <th rowspan="2">操作</th>
                     </tr>
@@ -82,653 +85,53 @@
                     </tr>
                     </thead>
                     <tbody id="edit_tb">
+                    <!--
                     <tr>
                         <td>卫衣</td>
                         <td>E1</td>
                         <td>红色</td>
                         <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
+                        <td>
+                            <input type="text" class="yy_control_int"   style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_XS[]" value="">
+                        </td>
+                        <td>
+                            <input type="text"  class="yy_control_int" style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_S[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="yy_control_int"  style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_M[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="yy_control_int" style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_L[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="yy_control_int" style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_XL[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="yy_control_int" style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_2XL[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="yy_control_int" style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_3XL[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="yy_control_int" style="font-size:0.5rem;width: 40px" maxlength="3"  name="work_4XL[]" value="">
+                        </td>
+                        <td>
+                            <yy_all></yy_all>
+                        </td>
+                        <td>
+                            <yy_one_meters></yy_one_meters>
+                        </td>
+                        <td>
+                            <yy_turn_meters></yy_turn_meters>
+                        </td>
+                        <td>
+                            <yy_leave_meters></yy_leave_meters>
+                        </td>
+                        <td>
+                            <input type="text" style="font-size:0.5rem;width: 80px"  name="remark[]" value="">
+                        </td>
                         <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>  <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-                    <tr>
-                        <td>卫衣</td>
-                        <td>E1</td>
-                        <td>红色</td>
-                        <td>F11</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>10</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>40</td>
-                        <td>备注信息</td>
-                        <td><a class='am-btn am-btn-danger am-btn-xs' href='javascript:void(0);'>删除</a></td>
-                    </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    </tr>-->
                     </tbody>
                 </table>
                     </div>
@@ -994,22 +397,39 @@
                 cut_order_id:cut_order_id,
                 cut_cust_id:cust_id,
             };
-            $.post('/cutorder/cut_in_mstock', data_arr, function(data) {
+            var result = $.ajax({
+                url : '/cutorder/cut_in_mstock',
+                data: data_arr,
+                cache : false,
+                async : false,
+                type : "POST"
+            }).responseText;
+            if(result == -1){
+                layer.msg('操作失败!', {icon: 2});return false;
+            }else if(result==-2){
+                layer.msg('信息不全!', {icon: 2});return false;
+            }else{
+                $("#edit_tb").append(result);
+                $("input[name='ch_check_id[]']:checked").each(function(){
+                    $(this).parent().parent().remove();
+                })
+            }
+
+            /*$.post('/cutorder/cut_in_mstock', data_arr, function(data) {
                 if(data == -1){
                     layer.msg('操作失败!', {icon: 2});return false;
                 }else if(data==-2){
                     layer.msg('信息不全!', {icon: 2});return false;
-                }else if(data==-3){
-                    layer.msg('存在面料已被占用!', {icon: 2});
-                    $("input[name='ch_check_id[]']:checked").each(function(){
-                        $(this).parent().parent().remove();
-                    })
                 }else{
+                    if(data==-3){
+                        layer.msg('存在面料已被占用!', {icon: 2});
+                    }
+
                     $("input[name='ch_check_id[]']:checked").each(function(){
                         $(this).parent().parent().remove();
                     })
                 }
-            });
+            });*/
 
         })
 
