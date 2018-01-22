@@ -86,6 +86,10 @@ class Cutorder extends MY_Controller {
 		$this->display('style/show_m_list4cut.html');
 	}
 
+	public function delete_show(){
+		echo $this->cutorder_model->delete_show();
+	}
+
 
 
 }

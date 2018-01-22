@@ -117,6 +117,7 @@ class Cutorder_model extends MY_Model
         $this->db->where(array(
            'b.flag'=>1,
             'b.status'=>1,
+            'a.cut_order_id'=>$data['cut_order_id']
         ));
         $this->db->where_in('b.id',$show_stock_ids);
         $show_data = $this->db->get()->result_array();
@@ -136,8 +137,24 @@ class Cutorder_model extends MY_Model
             $show_data[$key_]['ls_all'] = $p_all*$use_p_;
             $show_data[$key_]['ls_leave_m'] = round(($turn_meters_ - $one_use_*$p_all*$use_p_),2);
         }
-        return $show_data;
+        $re_show['item'] = $show_data;
+        $re_show['res'] = $re;
+        return $re_show;
 
+    }
+
+    public function delete_show(){
+        $check = $this->db->select()->from('cut_order')->where(array(
+            'id'=>$this->input->post('cut_order_id'),
+            'flag'=>1
+        ))->get()->row();
+        if(!$check)
+            return -1;
+        $res = $this->db->delete('cut_order_detail',array(
+            'id'=>$this->input->post('cut_order_detail_id'),
+            'cut_order_id'=>$this->input->post('cut_order_id'),
+        ));
+        return $res;
     }
 
 }

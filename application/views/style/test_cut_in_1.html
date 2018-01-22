@@ -9,6 +9,7 @@
     .am-selected-btn{width:110px;font-size:1.1rem}
     .fl{ float: left;}
     .yy_control_int{font-size:1.1rem;}
+    .yy_control_int_bl{}
 </style>
 <!-- content start -->
 <div class="admin-content">
@@ -340,6 +341,51 @@
         $("#close_btn").click(function(){
             $('#my-prompt2').modal('close');
         })
+
+        function jisuan(obj,self_obj){
+            var self_val = parseInt(change_0(self_obj.find("input").eq(0).val()));
+            var work_XS = parseInt(change_0(obj.find("input[name='work_XS[]']").eq(0).val()));
+            var work_S = parseInt(change_0(obj.find("input[name='work_S[]']").eq(0).val()));
+            var work_M = parseInt(change_0(obj.find("input[name='work_M[]']").eq(0).val()));
+            var work_L = parseInt(change_0(obj.find("input[name='work_L[]']").eq(0).val()));
+            var work_XL = parseInt(change_0(obj.find("input[name='work_XL[]']").eq(0).val()));
+            var work_2XL = parseInt(change_0(obj.find("input[name='work_2XL[]']").eq(0).val()));
+            var work_3XL = parseInt(change_0(obj.find("input[name='work_3XL[]']").eq(0).val()));
+            var work_4XL = parseInt(change_0(obj.find("input[name='work_4XL[]']").eq(0).val()));
+            var js_all = parseInt(change_0(obj.find("input[name='js_all[]']").eq(0).val()));
+            var one_meters = change_0(obj.find("yy_one_meters").eq(0).html());
+            var turn_meters = change_0(obj.find("yy_turn_meters").eq(0).html());
+            var work_all = work_XS+work_S+work_M+work_L +work_XL+work_2XL+work_3XL+work_4XL;
+            if(js_all < work_all){
+
+                var ls_val = js_all - work_all-self_val;
+                if(ls_val < 0){
+                    layer.msg('件数异常,尺码件数均清零', {icon: 2});
+                    obj.find("input[name='work_XS[]']").eq(0).val('');
+                    obj.find("input[name='work_S[]']").eq(0).val('');
+                    obj.find("input[name='work_M[]']").eq(0).val('');
+                    obj.find("input[name='work_L[]']").eq(0).val('');
+                    obj.find("input[name='work_XL[]']").eq(0).val('');
+                    obj.find("input[name='work_2XL[]']").eq(0).val('');
+                    obj.find("input[name='work_3XL[]']").eq(0).val('');
+                    obj.find("input[name='work_4XL[]']").eq(0).val('');
+                }else{
+                    layer.msg('已超出最大件数!,系统自动改写该尺码最大件数', {icon: 2});
+                    self_obj.find("input").eq(0).val(ls_val);
+                }
+
+            }
+            var leave_meters_ = turn_meters - work_all * one_meters
+            obj.find("yy_leave_meters").html(leave_meters_);
+            obj.find("yy_all").html(work_all);
+
+        }
+
+        function change_0(int_){
+            if($.trim(int_) == ''){return 0;}
+            return int_;
+        }
+
         $("#tijiao_btn").click(function(){
             var style_id = $('#style_id2').val();
             var use_meters4one = $.trim($('#use_meters4one2').val());
@@ -413,23 +459,42 @@
                 $("input[name='ch_check_id[]']:checked").each(function(){
                     $(this).parent().parent().remove();
                 })
+                //重新绑定数字验证
+                $(".yy_control_int_bl").off('keyup').off('blur').off('paste');
+                $(".yy_control_int_bl").keyup(function () {
+                    $(this).val($(this).val().replace(/[^0-9]/g, ''));
+                    jisuan($(this).parent().parent(),$(this));
+                }).blur(function(){
+                    $(this).val($(this).val().replace(/[^0-9]/g, ''));
+                    jisuan($(this).parent().parent(),$(this));
+                }).bind("paste", function () {  //CTR+V事件处理
+                    $(this).val($(this).val().replace(/[^0-9]/g, ''));
+                    jisuan($(this).parent().parent(),$(this));
+                }).css("ime-mode", "disabled"); //CSS设置输入法不可用
+
+
+                $("#edit_tb").find(".am-btn-danger").off('click');
+                $("#edit_tb").find(".am-btn-danger").on('click',function(){
+                   var cut_order_detail_id = $(this).parent().find('input').eq(0).val();
+                    var tr_ = $(this).parent().parent();
+                    var l_con_ = layer.confirm("是否确认删除!", {
+                        btn: ['同意','不同意'], //按钮
+                        area: ['200px', 'auto']
+                    }, function(){
+                        $.post('/cutorder/delete_show', {cut_order_detail_id:cut_order_detail_id,cut_order_id:cut_order_id}, function(data) {
+                            if(data == 1){
+                                tr_.remove();
+                                layer.close(l_con_);
+                            }else{
+                                layer.msg('操作失败!', {icon: 2});return false;
+                            }
+                        });
+                    }, function(){
+                    });
+                })
             }
 
-            /*$.post('/cutorder/cut_in_mstock', data_arr, function(data) {
-                if(data == -1){
-                    layer.msg('操作失败!', {icon: 2});return false;
-                }else if(data==-2){
-                    layer.msg('信息不全!', {icon: 2});return false;
-                }else{
-                    if(data==-3){
-                        layer.msg('存在面料已被占用!', {icon: 2});
-                    }
-
-                    $("input[name='ch_check_id[]']:checked").each(function(){
-                        $(this).parent().parent().remove();
-                    })
-                }
-            });*/
+            /*$.*/
 
         })
 
