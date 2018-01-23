@@ -105,6 +105,14 @@ class Cutorder extends MY_Controller {
 		$data = $this->cutorder_model->cut_list($page,2);
 		$base_url = "/cutorder/cut_list/";
 		$pager = $this->pagination->getPageLink($base_url, $data['total'], $data['limit']);
+		$cust = $this->cust_model->get_cust_all();
+		$material = $this->material_model->get_material_all();
+		$color = $this->material_model->get_color_all();
+		$style= $this->style_model->get_style_all();
+		$this->assign('style', $style);
+		$this->assign('material', $material);
+		$this->assign('color', $color);
+		$this->assign('cust', $cust);
 		$this->assign('pager', $pager);
 		$this->assign('data', $data);
 		$this->assign('page', $page);

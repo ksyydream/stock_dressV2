@@ -223,12 +223,13 @@ class Cutorder_model extends MY_Model
                         $update_data['4xl'] = round($check_['p_4xl']*$use_p_);
                         $all_work = $update_data['xs'] + $update_data['s'] +$update_data['m'] +$update_data['l'] +$update_data['xl'] +$update_data['2xl'] +$update_data['3xl'] +$update_data['4xl'] ;
                     }else{
+                        $this->db->where('cut_order_id',$cut_order_id)->where('id',$v)->delete('cut_order_detail');
                         continue;
                     }
                 }
                 $update_data['all_use'] = $all_work * $check_['one_use'];
                 $update_data['leave_meters'] = $check_['turn_meters'] - $all_work * $check_['one_use'];
-                $this->db->update('cut_order_detail',$update_data);
+                $this->db->where('id',$v)->update('cut_order_detail',$update_data);
             }
         }
         $this->db->where(array('id'=>$cut_order_id,'status'=>1))->update('cut_order',array('status'=>2));
@@ -250,23 +251,23 @@ class Cutorder_model extends MY_Model
         $this->db->join('material_color e','c.color_id = e.id','left');
         $this->db->join('style f','c.style_id = f.id','left');
         if($this->input->post('material_id') && $this->input->post('material_id')!='-2'){
-            $this->db->where('a.material_id',$this->input->post('material_id'));
+            $this->db->where('c.material_id',$this->input->post('material_id'));
         }
         if($this->input->post('cust_id') && $this->input->post('cust_id')!='-2'){
             $this->db->where('a.cust_id',$this->input->post('cust_id'));
         }
-        if($this->input->post('color_id') && $this->input->post('color_id')!='-2'){
-            $this->db->where('a.color_id',$this->input->post('color_id'));
+        if($this->input->post('style_id') && $this->input->post('style_id')!='-2'){
+            $this->db->where('c.style_id',$this->input->post('style_id'));
         }
         $this->db->where('a.status',$status);
         if($this->input->post('ganghao')){
             $this->db->like("a.ganghao",$this->input->post('ganghao'));
         }
         if($this->input->POST('Istart_date')) {
-            $this->db->where('DATE_FORMAT(a.in_date,\'%Y-%m-%d\') >=', $this->input->POST('Istart_date'));
+            $this->db->where('DATE_FORMAT(a.plan_date,\'%Y-%m-%d\') >=', $this->input->POST('Istart_date'));
         }
         if($this->input->POST('Iend_date')) {
-            $this->db->where('DATE_FORMAT(a.in_date,\'%Y-%m-%d\') <=', $this->input->POST('Iend_date'));
+            $this->db->where('DATE_FORMAT(a.plan_date,\'%Y-%m-%d\') <=', $this->input->POST('Iend_date'));
         }
         $num = $this->db->get()->row();
         $data['total'] = $num->num;
@@ -275,41 +276,51 @@ class Cutorder_model extends MY_Model
         $data['flag'] = $this->input->post('flag')?$this->input->post('flag'):null;
         $data['ganghao'] = $this->input->post('ganghao')?$this->input->post('ganghao'):null;
         $data['cust_id'] = $this->input->post('cust_id')?$this->input->post('cust_id'):null;
-        $data['color_id'] = $this->input->post('color_id')?$this->input->post('color_id'):null;
+        $data['style_id'] = $this->input->post('style_id')?$this->input->post('style_id'):null;
         $data['material_id'] = $this->input->post('material_id')?$this->input->post('material_id'):null;
         $data['Istart_date'] = $this->input->post('Istart_date')?$this->input->post('Istart_date'):null;
         $data['Iend_date'] = $this->input->post('Iend_date')?$this->input->post('Iend_date'):null;
         //获取详细列
-        $this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name,group_concat(d.material_name) m_list,group_concat(f.style_name) s_list")->from('cut_order a');
+        $this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name,
+        group_concat(distinct(d.material_name)) m_list,
+        group_concat(distinct(d2.material_name)) m2_list,
+        group_concat(distinct(f.style_name)) s_list,
+        group_concat(distinct(f2.style_name)) s2_list")->from('cut_order a');
         $this->db->join('cust b','a.cust_id = b.id','left');
         $this->db->join('cut_order_detail c','c.cut_order_id = a.id','left');
         $this->db->join('material d','c.material_id = d.id','left');
         $this->db->join('material_color e','c.color_id = e.id','left');
         $this->db->join('style f','c.style_id = f.id','left');
         if($this->input->post('material_id') && $this->input->post('material_id')!='-2'){
-            $this->db->where('a.material_id',$this->input->post('material_id'));
+            $this->db->join('material d2',"c.material_id = d2.id and c.material_id = {$this->input->post('material_id')}",'left');
+        }else{
+            $this->db->join('material d2','c.material_id = d2.id','left');
+        }
+        if($this->input->post('style_id') && $this->input->post('style_id')!='-2'){
+            $this->db->join('style f2',"c.style_id = f2.id and c.style_id = {$this->input->post('style_id')}",'left');
+        }else{
+            $this->db->join('style f2','c.style_id = f2.id','left');
         }
         if($this->input->post('cust_id') && $this->input->post('cust_id')!='-2'){
             $this->db->where('a.cust_id',$this->input->post('cust_id'));
         }
-        if($this->input->post('color_id') && $this->input->post('color_id')!='-2'){
-            $this->db->where('a.color_id',$this->input->post('color_id'));
-        }
+
         $this->db->where('a.status',$status);
         if($this->input->post('ganghao')){
             $this->db->like("a.ganghao",$this->input->post('ganghao'));
         }
         if($this->input->POST('Istart_date')) {
-            $this->db->where('DATE_FORMAT(a.in_date,\'%Y-%m-%d\') >=', $this->input->POST('Istart_date'));
+            $this->db->where('DATE_FORMAT(a.plan_date,\'%Y-%m-%d\') >=', $this->input->POST('Istart_date'));
         }
         if($this->input->POST('Iend_date')) {
-            $this->db->where('DATE_FORMAT(a.in_date,\'%Y-%m-%d\') <=', $this->input->POST('Iend_date'));
+            $this->db->where('DATE_FORMAT(a.plan_date,\'%Y-%m-%d\') <=', $this->input->POST('Iend_date'));
         }
+        $this->db->having('m2_list IS NOT null and s2_list IS NOT null ');
         $this->db->group_by('a.id');
         $this->db->limit($data['limit'], $offset = ($page - 1) * $data['limit']);
         $this->db->order_by('a.create_date','desc');
         $data['items'] = $this->db->get()->result_array();
-
+        //die(var_dump($this->db->last_query()));
 
         return $data;
     }
