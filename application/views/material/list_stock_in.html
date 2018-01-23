@@ -20,6 +20,12 @@
                     <option value="{{$item.id}}" {{if $item.id == $data.cust_id}} selected="selected" {{/if}}>{{$item.name}}</option>
                     {{/foreach}}
                 </select>
+                <select data-am-selected="{searchBox: 1}" placeholder="面料型号" id="material_id" name="material_id">
+                    <option value="-2">全部面料型号</option>
+                    {{foreach from=$material key=key item=item}}
+                    <option value="{{$item.id}}" {{if $item.id == $data.material_id}} selected="selected" {{/if}}>{{$item.material_name}}</option>
+                    {{/foreach}}
+                </select>
                 <div class="am-input-group am-input-group-sm" style="margin-top: 15px;">
                    入库时间:
                     <input style="height: 40px;width: 180px"  class="form-control" id="Istart_date" name="Istart_date" type="text" value="{{$data.Istart_date|default:''}}"

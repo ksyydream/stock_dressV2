@@ -282,9 +282,9 @@ class Cutorder_model extends MY_Model
         $data['Iend_date'] = $this->input->post('Iend_date')?$this->input->post('Iend_date'):null;
         //获取详细列
         $this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name,
-        group_concat(distinct(d.material_name)) m_list,
+        group_concat(distinct d.material_name ORDER BY d.material_name) m_list,
         group_concat(distinct(d2.material_name)) m2_list,
-        group_concat(distinct(f.style_name)) s_list,
+        group_concat(distinct f.style_name ORDER BY f.style_name) s_list,
         group_concat(distinct(f2.style_name)) s2_list")->from('cut_order a');
         $this->db->join('cust b','a.cust_id = b.id','left');
         $this->db->join('cut_order_detail c','c.cut_order_id = a.id','left');

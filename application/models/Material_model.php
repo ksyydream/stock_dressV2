@@ -221,6 +221,7 @@ class Material_model extends MY_Model
 
 	public function list_stock_in($page){
 		$data['limit'] = $this->limit;
+		//$data['limit'] = 1;
 		//获取总记录数
 		$this->db->select('count(distinct(a.id)) as num')->from('material_in_form a');
 		$this->db->join('cust b','a.cust_id = b.id','left');
@@ -228,7 +229,7 @@ class Material_model extends MY_Model
 		$this->db->join('material d','c.material_id = d.id','left');
 		$this->db->join('material_color e','c.color_id = e.id','left');
 		if($this->input->post('material_id') && $this->input->post('material_id')!='-2'){
-			$this->db->where('a.material_id',$this->input->post('material_id'));
+			$this->db->where('c.material_id',$this->input->post('material_id'));
 		}
 		if($this->input->post('cust_id') && $this->input->post('cust_id')!='-2'){
 			$this->db->where('a.cust_id',$this->input->post('cust_id'));
@@ -250,18 +251,24 @@ class Material_model extends MY_Model
 
 		//搜索条件
 		$data['flag'] = $this->input->post('flag')?$this->input->post('flag'):null;
+		$data['material_id'] = $this->input->post('material_id')?$this->input->post('material_id'):null;
 		$data['cust_id'] = $this->input->post('cust_id')?$this->input->post('cust_id'):null;
 		$data['keyword'] = $this->input->post('keyword')?$this->input->post('keyword'):null;
 		$data['Istart_date'] = $this->input->post('Istart_date')?$this->input->post('Istart_date'):null;
 		$data['Iend_date'] = $this->input->post('Iend_date')?$this->input->post('Iend_date'):null;
 		//获取详细列
-		$this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name,group_concat(distinct d.material_name ORDER BY d.material_name) m_list,count(c.id) as count_all")->from('material_in_form a');
+		$this->db->select("a.*,IFNULL(b.name,'公共库存') cust_name,
+		group_concat(distinct d.material_name ORDER BY d.material_name) m_list,
+		group_concat(distinct d2.material_name) m2_list,
+		count(c.id) as count_all")->from('material_in_form a');
 		$this->db->join('cust b','a.cust_id = b.id','left');
 		$this->db->join('material_in_form_detail c','c.form_id = a.id','left');
 		$this->db->join('material d','c.material_id = d.id','left');
 		$this->db->join('material_color e','c.color_id = e.id','left');
 		if($this->input->post('material_id') && $this->input->post('material_id')!='-2'){
-			$this->db->where('a.material_id',$this->input->post('material_id'));
+			$this->db->join('material d2',"c.material_id = d2.id and c.material_id = {$this->input->post('material_id')}",'left');
+		}else{
+			$this->db->join('material d2','c.material_id = d2.id','left');
 		}
 		if($this->input->post('cust_id') && $this->input->post('cust_id')!='-2'){
 			$this->db->where('a.cust_id',$this->input->post('cust_id'));
@@ -279,6 +286,7 @@ class Material_model extends MY_Model
 			$this->db->where('DATE_FORMAT(a.in_date,\'%Y-%m-%d\') <=', $this->input->POST('Iend_date'));
 		}
 		$this->db->group_by('a.id');
+		$this->db->having('m2_list IS NOT null');
 		$this->db->limit($data['limit'], $offset = ($page - 1) * $data['limit']);
 		$this->db->order_by('a.id','desc');
 		$data['items'] = $this->db->get()->result_array();
