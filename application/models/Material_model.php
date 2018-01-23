@@ -536,7 +536,7 @@ class Material_model extends MY_Model
 		return $data;
 	}
 
-	public function get_m_list4cut($cust_id=null,$material_id=null,$color_id=null,$ganghao=null,$cut_order_id=null){
+	public function get_m_list4cut($cust_id=-3,$material_id=null,$color_id=null,$ganghao=null,$cut_order_id=null){
 		$ready_in = array();
 		if($cut_order_id){
 			$cut_detail = $this->db->select('material_stock_id')->from('cut_order_detail')->where('cut_order_id',$cut_order_id)->get()->result_array();
@@ -554,9 +554,7 @@ class Material_model extends MY_Model
 		if($material_id&& $material_id!='-2'){
 			$this->db->where('a.material_id',$material_id);
 		}
-		if($cust_id && $cust_id!='-2'){
-			$this->db->where('a.cust_id',$cust_id);
-		}
+		$this->db->where('a.cust_id',$cust_id);
 		if($color_id && $color_id!='-2'){
 			$this->db->where('a.color_id',$color_id);
 		}

@@ -90,6 +90,26 @@ class Cutorder extends MY_Controller {
 		echo $this->cutorder_model->delete_show();
 	}
 
+	public function save_cut(){
+		$rs = $this->cutorder_model->save_cut();
+		if($rs > 0){
+			$this->show_message('操作成功',site_url('cutorder/cut_list_2'));
+		}elseif ($rs == -2){
+			$this->show_message('信息不全,或已不可编辑');
+		}else{
+			$this->show_message('操作失败');
+		}
+	}
+
+	public function cut_list_2($page=1){
+		$data = $this->cutorder_model->cut_list($page,2);
+		$base_url = "/cutorder/cut_list/";
+		$pager = $this->pagination->getPageLink($base_url, $data['total'], $data['limit']);
+		$this->assign('pager', $pager);
+		$this->assign('data', $data);
+		$this->assign('page', $page);
+		$this->show('style/cut_list');
+	}
 
 
 }

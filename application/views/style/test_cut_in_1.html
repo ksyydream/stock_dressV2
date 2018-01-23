@@ -45,7 +45,7 @@
             <form id="rescore_form" action="{{site_url url='company/re_score'}}" method="post">
 
             </form>
-            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='cutorder/save_1'}}/">
+            <form id="save_form" class="am-form am-form-horizontal" method="post" action="{{site_url url='cutorder/save_cut'}}/">
                 <input type="hidden" id="cust_id" name="cust_id" value="{{$detail.cust_id|default:''}}">
                 <input type="hidden" name="cut_order_id" id="cut_order_id" value="{{$detail.id|default:''}}">
                 <a class="am-btn am-btn-warning" id="add_m" href="javascript:void(0);">
@@ -138,7 +138,8 @@
                     </div>
 
             </form>
-
+            <button type="button" id="save_btn" class="am-btn am-btn-success am-round">完成创建</button>
+            <button type="button" id="cancel_btn" class="am-btn am-btn-danger am-round">取消创建</button>
         </div>
     </div>
 </div>
@@ -280,10 +281,6 @@
             $(this).val($(this).val().replace(/[^0-9.]/g, ''));
             if(!/^[0-9]+(.[0-9]{0,2})?$/.test($(this).val())) {$(this).val('');}
         }).css("ime-mode", "disabled"); //CSS设置输入法不可用
-
-        $("#save_btn").click(function(){
-                $("#save_form").submit();
-        })
         $("#add_m").click(function(){
             $('#show_cust').val('-1');
             $('#material_id2').val('-2');
@@ -497,6 +494,26 @@
             /*$.*/
 
         })
+        $("#save_btn").click(function(){
+            layer.confirm("是否确认完成创建!,创建后信息将不可修改.", {
+                btn: ['同意','不同意'], //按钮
+                area: ['300px', 'auto'],
+                icon: 1
+            }, function(){
+                $("#save_form").submit();
+            }, function(){
+            });
+        });
+        $("#cancel_btn").click(function(){
+            layer.confirm("是否确认取消创建!,取消后创建信息将不会保存.", {
+                btn: ['同意','不同意'], //按钮
+                area: ['300px', 'auto'],
+                icon: 2
+            }, function(){
+                redirect('/index')
+            }, function(){
+            });
+        });
 
     })
 
